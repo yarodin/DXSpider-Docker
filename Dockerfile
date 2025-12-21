@@ -74,6 +74,9 @@ COPY motd ${SPIDER_INSTALL_DIR}/data
 # Copy Startup script
 COPY startup ${SPIDER_INSTALL_DIR}/scripts
 
+# Copy .pl utilites
+COPY ./local_cmd/*.pl ${SPIDER_INSTALL_DIR}/local_cmd
+
 # Copy crontab
 COPY crontab ${SPIDER_INSTALL_DIR}/local_cmd
 

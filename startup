@@ -1,4 +1,7 @@
 #
+# reject node adverts
+rej/ann node_default input info telnet,cluster,7000,7300,7373,8000,8888,9000,17300
+#
 # set outbound spider connections with nodes you've paired with
 set/spider 9m2pju-2
 #

@@ -1,4 +1,4 @@
-FROM alpine:3.20
+FROM alpine:latest
 
 ARG SPIDER_GIT_REPOSITORY=https://github.com/yarodin/dx-spider
 # SPIDER_VERSION can be "mojo" or "master"
@@ -73,6 +73,9 @@ COPY motd ${SPIDER_INSTALL_DIR}/data
 
 # Copy Startup script
 COPY startup ${SPIDER_INSTALL_DIR}/scripts
+
+# Copy user_default script
+COPY user_default ${SPIDER_INSTALL_DIR}/scripts
 
 # Copy .pl utilites
 COPY ./local_cmd ${SPIDER_INSTALL_DIR}/local_cmd/

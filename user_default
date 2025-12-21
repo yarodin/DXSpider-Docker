@@ -1,0 +1,6 @@
+#
+# standard user default script
+#
+blank +
+unset/beep
+blank -

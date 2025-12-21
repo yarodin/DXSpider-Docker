@@ -1,3 +1,14 @@
-load/forward
+#
+# set outbound spider connections with nodes you've paired with
 set/spider 9m2pju-2
+#
+# make instant connections to nodes
 connect 9m2pju-2
+#
+# make people register before they can send spots
+# 1 is on, 0 is off
+set/var $main::reqreg = 1
+#
+# make people use a password to login
+# 1 is on, 0 is off
+set/var $main::passwdreq = 0

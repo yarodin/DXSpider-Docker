@@ -51,7 +51,7 @@ RUN apk update \
     && mkdir -p ${SPIDER_INSTALL_DIR}/local ${SPIDER_INSTALL_DIR}/local_cmd ${SPIDER_INSTALL_DIR}/local_data \
     && find ${SPIDER_INSTALL_DIR}/. -type d -exec chmod 2775 {} \; \ 
     && find ${SPIDER_INSTALL_DIR}/. -type f -name '*.pl' -exec chmod 775 {} \; \
-    && (cd ${SPIDER_INSTALL_DIR}/src && make) \
+    #&& (cd ${SPIDER_INSTALL_DIR}/src && make) \
     && apk del --purge \
     gcc \
     make \

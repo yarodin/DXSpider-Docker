@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌐 9M2PJU-DXSpider-Docker
+# 🌐 DXSpider-Docker (forked from 9M2PJU/9M2PJU-DXSpider-Docker)
 
 ### Revolutionizing Amateur Radio DX Clustering with Docker
 
@@ -62,7 +62,7 @@
 
 ## 📡 Overview
 
-9M2PJU-DXSpider-Docker revolutionizes the way amateur radio operators deploy and manage DX Cluster nodes. By containerizing the legendary DXSpider cluster software, we've eliminated complex setup procedures while maintaining all the powerful features that make DXSpider the gold standard in DX clustering.
+DXSpider-Docker revolutionizes the way amateur radio operators deploy and manage DX Cluster nodes. By containerizing the legendary DXSpider cluster software, we've eliminated complex setup procedures while maintaining all the powerful features that make DXSpider the gold standard in DX clustering.
 
 ### Why Choose This Solution?
 
@@ -96,10 +96,10 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/9M2PJU/9M2PJU-DXSpider-Docker.git
+git clone https://github.com/yarodin/DXSpider-Docker.git
 
 # Navigate to the directory
-cd 9M2PJU-DXSpider-Docker
+cd DXSpider-Docker
 ```
 
 ### Step-by-Step Guide
@@ -192,6 +192,6 @@ This project is licensed under the MIT License.
 
 ### Made with ❤️ by the Amateur Radio Community
 
-*73 de 9M2PJU* 📡
+*73 de R1BET* 📡
 
 </div>

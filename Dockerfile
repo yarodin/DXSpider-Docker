@@ -10,7 +10,7 @@ ARG SPIDER_UID=${SPIDER_UID:-1000}
 
 
 RUN apk update \
-    && apk add --no-cache --virtual\
+    && apk add --no-cache \
     gcc \
     git \ 
     make \

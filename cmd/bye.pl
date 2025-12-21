@@ -4,19 +4,16 @@
 #
 #
 
+
 my $self = shift;
-return (1, $self->msg('e5')) if $self->inscript;
+return (1, $self->msg('e5')) if $self->inscript || $self->remotecmd;
 
-# log out text
-if ($self->is_user && -e "$main::data/logout") {
-	open(I, "$main::data/logout") or confess;
-	my @in = <I>;
-	close(I);
-	$self->send_now('D', @in);
-	sleep(1);
+my $fn = localdata("logout");
+#dbg("fn: $fn " . (-e $fn ? 'exists' : 'missing'));
+
+if ($self->is_user && -e $fn) {
+	$self->send_file($fn);
 }
-
-#$self->send_now('Z', "");
 
 $self->disconnect;
 

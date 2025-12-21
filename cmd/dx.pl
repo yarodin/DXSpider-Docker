@@ -24,7 +24,8 @@ return (1, $self->msg('e5')) if $self->remotecmd || $self->inscript;
 return (1, $self->msg('e28')) unless $self->isregistered;
 
 
-my $addr = $self->hostname || '127.0.0.1';
+my $addr = alias_localhost($self->hostname || '127.0.0.1');
+
 Log('cmd', "$self->{call}|$addr|dx|$line");
 
 my @bad;
@@ -75,7 +76,7 @@ if (is_freq($f[1]) && $f[0] =~ m{^[\w\d]+(?:/[\w\d]+){0,2}$}) {
 }
 $line =~ s/^\s*$f[0]//;
 $line =~ s/^\s*$f[1]//;
-$line =~ unpad($line);
+$line = unpad($line);
 $line =~ s/\t+/ /g;				# do this here because it needs to be stopped ASAP!
 $line ||= ' ';
 
@@ -93,18 +94,14 @@ my $callnoid = basecall($self->{call});
 #$DB::single = 1;
 
 if ($DXProt::baddx->in($spotted)) {
-	++$localonly; 
+	$localonly++; 
 }
-if ($DXProt::badspotter->in($spotternoid)) { 
-	LogDbg('DXCommand', "badspotter $spotternoid as $spotter ($oline) from $ipaddr");
-	++$localonly; 
-}
-if ($ipaddr && DXCIDR::find($ipaddr)) {
-	LogDbg('DXCommand', "Bad IP address $ipaddr $spotternoid as $spotter ($oline)");
-	++$localonly; 
+if ($DXProt::badspotter->in($spotternoid) || $self->badip) { 
+	LogDbg('DXCommand', "badspotter $spotternoid as $spotter ($oline) from $addr");
+	$localonly++; 
 }
 
-#dbg "spotter $spotternoid/$callnoid\";
+dbg "spotter $spotternoid/$callnoid\n";
 
 if (($spotted =~ /$spotternoid/ || $spotted =~ /$callnoid/) && $freq < $Spot::minselfspotqrg) {
 	LogDbg('DXCommand', "$spotternoid/$callnoid trying to self spot below ${Spot::minselfspotqrg}KHz ($oline) from $addr, not passed on to cluster");
@@ -158,7 +155,6 @@ return (1, @out) unless $valid;
 
 # Store it here (but only if it isn't baddx)
 my $t = (int ($main::systime/60)) * 60;
-return (1, $self->msg('dup')) if Spot::dup($freq, $spotted, $t, $line, $spotter, $main::mycall);
 my @spot = Spot::prepare($freq, $spotted, $t, $line, $spotter, $main::mycall, $ipaddr);
 
 #$DB::single = 1;
@@ -178,13 +174,19 @@ if ($freq =~ /^69/ || $localonly) {
 	$ipaddr ||= $main::mycall;	# emergency backstop
 	my $spot = DXProt::pc61($spotter, $freq, $spotted, unpad($line),  $ipaddr);
 	
-	$self->dx_spot(undef, undef, @spot);
 	if ($self->isslugged) {
 		push @{$self->{sluggedpcs}}, [61, $spot, \@spot];
 	} else {
 		# store in spots database 
-		Spot::add(@spot);
-		DXProt::send_dx_spot($self, $spot, @spot);
+		unless (Spot::dup_find(@spot)) {
+			Spot::add_local(@spot);
+			DXProt::send_dx_spot($self, $spot, @spot);
+		} else {
+			return (1, $self->msg('dup'));
+			LogDbg("DXCommand", "Spot dupe from $spotter: $line");
+		}
+		# put this here so that the spotter does not know that it is a dupe or not
+		$self->dx_spot(undef, undef, @spot);
 	}
 }
 

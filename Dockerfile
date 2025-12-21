@@ -1,6 +1,6 @@
 FROM alpine:3.20
 
-ARG SPIDER_GIT_REPOSITORY=git://scm.dxcluster.org/scm/spider
+ARG SPIDER_GIT_REPOSITORY=https://github.com/yarodin/dx-spider
 # SPIDER_VERSION can be "mojo" or "master"
 ARG SPIDER_VERSION=mojo
 
@@ -10,7 +10,7 @@ ARG SPIDER_UID=${SPIDER_UID:-1000}
 
 
 RUN apk update \
-    && apk add \
+    && apk add --no-cache --virtual\
     gcc \
     git \ 
     make \
@@ -43,7 +43,6 @@ RUN apk update \
     ncurses-dev \
     mysql-dev \
     gcc \
-    ttyd \
     wget \
     && cpanm --no-wget Data::Structure::Util \
     && adduser -D -u ${SPIDER_UID} -h ${SPIDER_INSTALL_DIR} ${SPIDER_USERNAME} \

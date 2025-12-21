@@ -9,9 +9,10 @@
 # Copyright (c) 2001-2013 Dirk Koopman G1TLH
 #
 
-use vars qw (%allowed);
+use vars qw (%allowed %convert);
 
-%allowed = qw(call 1 fname 1 name 1 addr2 1 state 1 country 1 lat 1 lon 1 county 1 moddate 1 qslmgr 1 grid 1 Error 1 );
+%allowed = qw(call 1 fname 1 name 1 addr2 1 state 1 country 1 lat 1 lon 1 county 1 moddate 1 qslmgr 1 grid 1 Error 1 dxcc 1 );
+%convert = qw(dxcc ADIF);
 
 sub _send
 {
@@ -21,6 +22,7 @@ sub _send
 
 	my ($tag, $data) = $msg =~ m|^\s*<(\w+)>(.*)</|;
 	if ($allowed{$tag}) {
+		$tag = $convert{$tag} if exists $convert{$tag};
 		my $prefix = $conn->{prefix} || ' ';
 		$dxchan->send($prefix . sprintf("%-10s: $data", $tag));
 	}
@@ -67,13 +69,13 @@ sub handle
 
 	return (1, $self->msg('e24')) unless $Internet::allow;
 	return (1, "SHOW/QRZ <callsign>, e.g. SH/QRZ g1tlh") unless $line;
-	my $target = $Internet::qrz_url || 'xmldata.qrz.com';
+	my $target = $Internet::qrz_url || 'xml.qrz.com';
 	my $port = 80;
 	my $path = qq{/xml/current/?callsign=$line;username=$Internet::qrz_uid;password=$Internet::qrz_pw;agent=dxspider};
 	dbg("qrz: $target:$port$path") if isdbg('qrz');
-
-	Log('call', "$call: show/qrz \U$line");
-	my $conn = AsyncMsg->get($self, $target, $port, $path, filter=>\&filter, prefix=>'qrz> ', on_disc=>\&_on_disc);
+	my $addr = $self->hostname || '127.0.0.1';
+	Log('cmd', "$self->{call}|$addr|show/qrz|$line");
+	my $conn = AsyncMsg->get($self, $target, $path, filter=>\&filter, prefix=>'qrz> ', on_disc=>\&_on_disc);
 	if ($conn) {
 		$conn->{state} = 'blank';
 		push @out, $self->msg('m21', "show/qrz");

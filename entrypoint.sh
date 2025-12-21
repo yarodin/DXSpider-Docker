@@ -57,8 +57,7 @@ sed -i "/\$Internet::contest_host/s/'//g" ${SPIDER_INSTALL_DIR}/local/DXVars.pm
 
 cd ${SPIDER_INSTALL_DIR}/perl && \
 ./create_sysop.pl && \
-./cluster.pl &
+./cluster.pl
 
 sleep 3
 
-ttyd -p ${CLUSTER_SYSOP_PORT} -u 1000 -t fontSize=16 -c ${CLUSTER_DBUSER}:${CLUSTER_DBPASS} perl /spider/perl/console.pl

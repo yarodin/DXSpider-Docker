@@ -1,7 +1,7 @@
 #
 # print out the general log file for chat only
 #
-# Copyright (c) 1998-2003 - Dirk Koopman G1TLH
+# Copyright (c) 1998-2023 - Dirk Koopman G1TLH
 #
 #
 #
@@ -28,11 +28,18 @@ while ($f = shift @f) {                 # next field
 		next if $to;
 	}
 	next if $who;
-	($who) = $f =~ /^(\w+)/o;
+	if ($f !~ /^\d+$/) {
+		($who) = $f;
+	}
+#	($who) = $f =~ /^(\w+)/o;
 }
 
 $to = 20 unless $to;
 $from = 0 unless $from;
 
-@out = DXLog::print($from, $to, $main::systime, 'chat', $who);
+if ($self->{_nospawn} || $main::is_win == 1) {
+	@out = DXLog::print($from, $to, $main::systime, 'chat', $who);
+} else {
+	@out = $self->spawn_cmd("show/chat $cmdline", \&DXLog::print, args => [$from, $to, $main::systime, 'chat', $who]);
+}
 return (1, @out);

@@ -26,7 +26,6 @@ services:
       - CLUSTER_DBUSER=${CLUSTER_DB_USER}
       - CLUSTER_DBPASS=${CLUSTER_DB_PASS}
       - CLUSTER_PORT=${CLUSTER_PORT}
-      - CLUSTER_SYSOP_PORT=${CLUSTER_SYSOP_PORT}
     healthcheck:
       test: ["CMD", "nc", "-z", "-v", "localhost", "${CLUSTER_PORT}"]
       interval: 10s
@@ -35,21 +34,26 @@ services:
       timeout: 60s
     restart: always
     volumes:
-      - ./startup:/spider/scripts/startup:rw
-      - ./crontab:/spider/local_cmd/crontab:rw
-      - ./connect:/spider/connect:rw
-      - ./motd:/spider/local_data/motd:rw
-      - ./local_data:/spider/local_data:rw
-      - ./cmd:/spider/cmd:rw
-      - ./msg:/spider/msg:rw  
+      - /srv/docker/dxspider/startup:/spider/scripts/startup:rw
+      - /srv/docker/dxspider/crontab:/spider/local_cmd/crontab:rw
+      - /srv/docker/dxspider/connect:/spider/connect:rw
+      - /srv/docker/dxspider/motd:/spider/local_data/motd:rw
+      - /srv/docker/dxspider/local_data:/spider/local_data:rw
+      - /srv/docker/dxspider/cmd:/spider/cmd:rw
+      - /srv/docker/dxspider/msg:/spider/msg:rw  
     ports:
       - ${CLUSTER_PORT}:${CLUSTER_PORT}
-      - ${CLUSTER_SYSOP_PORT}:${CLUSTER_SYSOP_PORT}
     expose:
       - ${CLUSTER_PORT}
-      - ${CLUSTER_SYSOP_PORT}
     logging:
       driver: "json-file"
       options:
         max-size: "200k"
         max-file: "10"
+    networks:
+      database: {}
+
+networks:
+  database:
+    external: true
+

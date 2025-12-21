@@ -28,11 +28,28 @@ while ($f = shift @f) {                 # next field
 		next if $to;
 	}
 	next if $who;
-	($who) = $f =~ /^(\w+)/o;
+	if ($f !~ /^\d+/) {
+		($who) = $f;
+	}
+	if ($f !~ /^\d+/) {
+		($who) = $f;
+	}
+	#($who) = $f =~ /^(\w+)/o;
 }
 
 $to = 20 unless $to;
 $from = 0 unless $from;
 
-@out = DXLog::print($from, $to, $main::systime, 'ann', $who);
+# if we can get it out of the cache than do it
+if (!$who && !$from && $to < @AnnTalk::anncache) {
+	my @in = @AnnTalk::anncache[-$to .. -1];
+	for (@in) {
+		push @out, DXLog::print_item($_);
+	}
+	return (1, @out);
+}
+
+return (1, DXLog::print($from, $to, $main::systime, 'ann', $who)) if ($self->{_nospawn} || $main::is_win == 1) || $DB::VERSION;
+return (1, $self->spawn_cmd("show/announce $cmdline", \&DXLog::print, args => [$from, $to, $main::systime, 'ann', $who]));
+	
 return (1, @out);

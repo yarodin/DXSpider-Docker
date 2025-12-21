@@ -27,11 +27,14 @@ while ($f = shift @f) {                 # next field
 		next if $to;
 	}
 	next if $who;
-	($who) = $f =~ /^(\w+)/o;
+	if ($f !~ /^\d+$/) {
+		($who) = $f;
+	}
 }
 
 $to = 20 unless $to;
 $from = 0 unless $from;
 
-@out = DXLog::print($from, $to, $main::systime, 'rcmd', $who);
-return (1, @out);
+return (1, DXLog::print($from, $to, $main::systime, 'rcmd', $who)) if ($self->{_nospawn} || $main::is_win == 1);
+return (1, $self->spawn_cmd("show/rcmd $cmdline", \&DXLog::print, args => [$from, $to, $main::systime, 'rcmd', $who]));
+

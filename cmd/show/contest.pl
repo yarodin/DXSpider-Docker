@@ -9,7 +9,7 @@
 sub handle
 {
 	my ($self, $line) = @_;
-
+   
 	return (1, $self->msg('e24')) unless $Internet::allow;
 
 	my @out;
@@ -52,7 +52,7 @@ sub handle
 
 	dbg("sh/contest: url=$url") if isdbg("contest");
 
-	my $r = AsyncMsg->get($self->call, $host, $port, $url, prefix=>'ctst> ');
+	my $r = AsyncMsg->get($self->call, $host, $url, prefix=>'ctst> ');
 	if ($r) {
 		push @out, $self->msg('m21', "show/contest");
 	}

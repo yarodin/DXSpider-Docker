@@ -11,7 +11,7 @@ my $self = shift;
 my $dxchan;
 my @out;
 
-push @out, "  Callsign Type      Started           Name     Ave RTT Link";
+push @out, "  Callsign Type      State    Started           Name     Ave RTT Link";
 
 foreach $dxchan ( sort {$a->call cmp $b->call} DXChannel::get_all ) {
     my $call = $dxchan->call();
@@ -24,6 +24,7 @@ foreach $dxchan ( sort {$a->call cmp $b->call} DXChannel::get_all ) {
 		$sort = "DXNT" if $dxchan->is_dxnet;
 		$sort = "AR-C" if $dxchan->is_arcluster;
 		$sort = "AK1A" if $dxchan->is_ak1a;
+		$sort = "CCCL" if $dxchan->is_ccluster;
 	} else {
 		$sort = "LOCL" if $dxchan->conn->isa('IntMsg');
 		$sort = "WEB " if $dxchan->is_web;
@@ -38,7 +39,8 @@ foreach $dxchan ( sort {$a->call cmp $b->call} DXChannel::get_all ) {
 		$ip = $dxchan->hostname;
 		$ip = "AGW Port ($conn->{agwport})" if exists $conn->{agwport};
 	}
-	push @out, sprintf "%10s $type $sort $t %-10.10s $ping $ip", $call, $name;
+	my $state = $dxchan->state;
+	push @out, sprintf "%10s $type $sort %-8.8s $t %-10.10s $ping $ip", $call, $state, $name;
 }
 
 return (1, @out)

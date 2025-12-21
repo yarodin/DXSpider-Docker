@@ -17,7 +17,7 @@ sub handle
 	return (1, $self->msg('e24')) unless $Internet::allow;
 	return (1, "SHOW/425 <callsign>\nSHOW/425 CAL\nSHOW/425 BULL <bulletin number>\n e.g. SH/425 IQ5BL, SH/425 CAL, SH/425 BUL 779\n") unless @list;
 
-	my $target = $Internet::dx425_url || 'www.425dxn.org';
+	my $target = $Internet::dx425_url || 'https://www.425dxn.org';
 	my $port = 80;
 
 	dbg('sh/425: args=' . join('|', @list)) if isdbg('425');
@@ -34,7 +34,7 @@ sub handle
 	dbg("sh/425: target='$target' path='$path'") if isdbg('425'); 
 	
 	Log('call', "$call: show/425 \U$op");
-	my $conn = AsyncMsg->get($self, $target, $port, $path, prefix=>'425> ', 'User-Agent' => qq{DxSpider;$main::version;$main::build;$^O;$main::mycall;$call;$list[0]});
+	my $conn = AsyncMsg->get($self, $target, $path, prefix=>'425> ', 'User-Agent' => qq{DxSpider;$main::version;$main::build;$^O;$main::mycall;$call;$list[0]});
 	
 	if ($conn) {
 		push @out, $self->msg('m21', "show/425");

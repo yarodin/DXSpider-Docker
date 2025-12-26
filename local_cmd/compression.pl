@@ -38,7 +38,7 @@ if ($current_day == 1) {
 my $file = "/spider/local_data/debug/$y/$d.dat";
 
 if (-e $file) {
-    my @compress = ('gzip', '-9', $file);
+    my @compress = ('/bin/gzip', '-9', $file);
     system(@compress) == 0 or warn "Compression failed: $!";
 } else {
     warn "File $file does not exist.";

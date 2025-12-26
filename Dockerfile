@@ -69,7 +69,10 @@ RUN rm -rf /spider/connect/*
 COPY ./connect /spider/connect/
 
 # Copy Message of the day file motd
-COPY motd ${SPIDER_INSTALL_DIR}/data
+COPY ./local_data/motd ${SPIDER_INSTALL_DIR}/data
+
+# Copy Message of the day file motd_nor
+COPY ./local_data/motd_nor ${SPIDER_INSTALL_DIR}/data
 
 # Copy Startup script
 COPY startup ${SPIDER_INSTALL_DIR}/scripts

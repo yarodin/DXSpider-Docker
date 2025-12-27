@@ -41,7 +41,6 @@ services:
       - /srv/docker/dxspider/startup:/spider/scripts/startup:rw
       - /srv/docker/dxspider/crontab:/spider/local_cmd/crontab:rw
       - /srv/docker/dxspider/connect:/spider/connect:rw
-      - /srv/docker/dxspider/motd:/spider/local_data/motd:rw
       - /srv/docker/dxspider/local_data:/spider/local_data:rw
       - /srv/docker/dxspider/cmd:/spider/cmd:rw
       - /srv/docker/dxspider/msg:/spider/msg:rw  

@@ -1,5 +1,7 @@
 services:
   dxspider:
+    image: dxspider
+    container_name: dxspider
     build:
       context: .
       dockerfile: Dockerfile

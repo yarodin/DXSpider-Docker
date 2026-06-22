@@ -1,6 +1,7 @@
 # Added ttyd for sysop console over web
 # Add configuration update for mysql / mariadb connection
 # Fix removal of lck lock file for mojo branch
+sleep 7
 
 SPIDER_INSTALL_DIR=${SPIDER_INSTALL_DIR:-/spider}
 

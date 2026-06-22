@@ -48,7 +48,7 @@ services:
       - /srv/docker/dxspider/cmd:/spider/cmd:rw
       - /srv/docker/dxspider/msg:/spider/msg:rw  
     ports:
-      - ${CLUSTER_PORT}:${CLUSTER_PORT}
+      - 0.0.0.0:${CLUSTER_PORT}:${CLUSTER_PORT}
     expose:
       - ${CLUSTER_PORT}
     logging:

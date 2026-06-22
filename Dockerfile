@@ -8,6 +8,7 @@ ARG SPIDER_INSTALL_DIR=${SPIDER_INSTALL_DIR:-/spider}
 ARG SPIDER_USERNAME=${SPIDER_USERNAME:-sysop}
 ARG SPIDER_UID=${SPIDER_UID:-1000}
 
+ENV DOCKERIZE_VERSION v0.13.0
 
 RUN apk update \
     && apk add --no-cache \
@@ -44,6 +45,7 @@ RUN apk update \
     mysql-dev \
     gcc \
     wget \
+    openssl \
     && cpanm --no-wget Data::Structure::Util \
     && adduser -D -u ${SPIDER_UID} -h ${SPIDER_INSTALL_DIR} ${SPIDER_USERNAME} \
     && git config --global --add safe.directory ${SPIDER_INSTALL_DIR} \
@@ -52,6 +54,7 @@ RUN apk update \
     && find ${SPIDER_INSTALL_DIR}/. -type d -exec chmod 2775 {} \; \ 
     && find ${SPIDER_INSTALL_DIR}/. -type f -name '*.pl' -exec chmod 775 {} \; \
     #&& (cd ${SPIDER_INSTALL_DIR}/src && make) \
+    && wget -O - https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz | tar xzf - -C /usr/local/bin \
     && apk del --purge \
     gcc \
     make \
@@ -59,6 +62,7 @@ RUN apk update \
     ncurses-dev \
     perl-app-cpanminus \
     perl-dev \
+    wget \
     && rm -rf /var/cache/apk/*
 
 
@@ -97,4 +101,6 @@ RUN chmod -R a+rwx /spider
 # COPY entrypoint.sh file
 COPY entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["dockerize", "-wait", "tcp://db:3306", "-timeout", "60s", "/entrypoint.sh"]

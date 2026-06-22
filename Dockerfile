@@ -93,14 +93,12 @@ COPY crontab ${SPIDER_INSTALL_DIR}/local_cmd
 # Permissions for spider 
 RUN chown -R ${SPIDER_USERNAME}:${SPIDER_USERNAME} ${SPIDER_INSTALL_DIR}/.
 
-# COPY entrypoint.sh file
-COPY entrypoint.sh /entrypoint.sh
-
-RUN chmod +x /entrypoint.sh
-
 USER ${SPIDER_UID}
 
 # Set permissions on the mounted volumes
 RUN chmod -R a+rwx /spider
+
+# COPY entrypoint.sh file
+COPY entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["dockerize", "-wait", "tcp://db:3306", "-timeout", "60s", "/bin/sh", "/entrypoint.sh"]

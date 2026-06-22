@@ -103,4 +103,4 @@ USER ${SPIDER_UID}
 # Set permissions on the mounted volumes
 RUN chmod -R a+rwx /spider
 
-ENTRYPOINT ["dockerize", "-wait", "tcp://db:3306", "-timeout", "60s", "/entrypoint.sh"]
+ENTRYPOINT ["dockerize", "-wait", "tcp://db:3306", "-timeout", "60s", "/bin/sh", "/entrypoint.sh"]

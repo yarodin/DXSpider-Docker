@@ -38,10 +38,11 @@ RUN apk update \
     mysql-client \
     mysql-dev \
     perl-dbd-mysql \ 
+    perl-dbd-sqlite \
     perl-dbi musl \ 
     perl-net-cidr-lite \
     make \
-    musl-dev \
+    musl-dev \    
     ncurses-dev \
     mysql-dev \
     gcc \

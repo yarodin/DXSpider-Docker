@@ -43,11 +43,14 @@ sed -e "s/\(\$mycall[[:space:]]*=[[:space:]]*\).*$/\1\"${CLUSTER_CALLSIGN}\";/" 
     -e "s/\(\#\$dbpass[[:space:]]*=[[:space:]]*\).*$/\1\"${CLUSTER_DBPASS}\";/" \
    < ${SPIDER_INSTALL_DIR}/perl/DXVars.pm.issue > ${SPIDER_INSTALL_DIR}/local/DXVars.pm
 
+# $root => SPIDER_INSTALL_DIR
+sed -i "s/dbname\=\$root/dbname\=\\"${SPIDER_INSTALL_DIR}"/g" ${SPIDER_INSTALL_DIR}/local/DXVars.pm
+
 # Remove leading# 
-sed -i "/\$dsn/s/^#*//g" ${SPIDER_INSTALL_DIR}/local/DXVars.pm
-sed -i "/\$dbuser/s/^#*//g" ${SPIDER_INSTALL_DIR}/local/DXVars.pm
-sed -i "/\$dbpass/s/^#*//g" ${SPIDER_INSTALL_DIR}/local/DXVars.pm
-sed -i "/\$Internet::contest_host/s/'//g" ${SPIDER_INSTALL_DIR}/local/DXVars.pm
+sed -i "/^#\$dsn/s/^#*//g" ${SPIDER_INSTALL_DIR}/local/DXVars.pm
+sed -i "/^#\$dbuser/s/^#*//g" ${SPIDER_INSTALL_DIR}/local/DXVars.pm
+sed -i "/^#\$dbpass/s/^#*//g" ${SPIDER_INSTALL_DIR}/local/DXVars.pm
+sed -i "/^#\$Internet::contest_host/s/'//g" ${SPIDER_INSTALL_DIR}/local/DXVars.pm
 
 # clean stale lock file
 [ -f ${SPIDER_INSTALL_DIR}/local/cluster.lck ] && rm -f ${SPIDER_INSTALL_DIR}/local/cluster.lck

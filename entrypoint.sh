@@ -44,7 +44,7 @@ sed -e "s/\(\$mycall[[:space:]]*=[[:space:]]*\).*$/\1\"${CLUSTER_CALLSIGN}\";/" 
    < ${SPIDER_INSTALL_DIR}/perl/DXVars.pm.issue > ${SPIDER_INSTALL_DIR}/local/DXVars.pm
 
 # $root => SPIDER_INSTALL_DIR
-sed -i "s/dbname\=\$root/dbname\=\\"${SPIDER_INSTALL_DIR}"/g" ${SPIDER_INSTALL_DIR}/local/DXVars.pm
+#sed -i "s/dbname\=\$root/dbname\=\\"${SPIDER_INSTALL_DIR}"/g" ${SPIDER_INSTALL_DIR}/local/DXVars.pm
 # sqlite => SQLite
 sed -i "s/dbi\:sqlite\:dbname\=/dbi\:SQLite\:dbname\=/g" ${SPIDER_INSTALL_DIR}/local/DXVars.pm
 

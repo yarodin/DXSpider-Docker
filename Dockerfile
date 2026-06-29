@@ -21,7 +21,8 @@ RUN apk update \
     perl-dev \
     nano \
     netcat-openbsd \
-    perl-db_file \
+    perl-db_file \ # to del ???
+    perl-dbd-sqlite \
     perl-dev \
     perl-digest-sha1 \
     perl-io-socket-ssl \

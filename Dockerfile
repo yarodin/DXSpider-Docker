@@ -43,6 +43,7 @@ RUN apk update \
     perl-net-cidr-lite \
     make \
     musl-dev \
+    sqlite-dev \
     ncurses-dev \
     mysql-dev \
     gcc \

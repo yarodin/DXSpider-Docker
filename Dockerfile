@@ -40,7 +40,7 @@ RUN apk update \
     sqlite \
     perl-dbd-mysql \ 
     perl-dbd-sqlite \
-    perl-dbi musl \ 
+    perl-dbi\ 
     perl-net-cidr-lite \
     make \
     musl-dev \    

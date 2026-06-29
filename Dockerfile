@@ -38,7 +38,7 @@ RUN apk update \
     mysql-client \
     mysql-dev \
     perl-dbd-mysql \ 
-    perl-dbi \ 
+    perl-dbi musl \ 
     perl-dbd-sqlite \
     perl-net-cidr-lite \
     make \

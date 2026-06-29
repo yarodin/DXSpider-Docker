@@ -37,6 +37,7 @@ RUN apk update \
     perl-json \
     mysql-client \
     mysql-dev \
+    sqlite \
     perl-dbd-mysql \ 
     perl-dbd-sqlite \
     perl-dbi musl \ 

@@ -33,13 +33,13 @@ services:
       - CLUSTER_DBPASS=${CLUSTER_DB_PASS}
       - CLUSTER_PORT=${CLUSTER_PORT}
       - CLUSTER_UPDATE=${CLUSTER_UPDATE}
-    #healthcheck:
-    #  test: ["CMD", "nc", "-z", "-v", "localhost", "${CLUSTER_PORT}"]
-    #  interval: 10s
-    #  start_period: 5s
-    #  retries: 3
-    #  timeout: 60s
-    #restart: always
+    healthcheck:
+      test: ["CMD", "nc", "-z", "-v", "localhost", "${CLUSTER_PORT}"]
+      interval: 10s
+      start_period: 5s
+      retries: 3
+      timeout: 60s
+    restart: always
     volumes:
       - /srv/docker/dxspider/startup:/spider/scripts/startup:rw
       - /srv/docker/dxspider/crontab:/spider/local_cmd/crontab:rw

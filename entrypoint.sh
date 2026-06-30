@@ -64,6 +64,6 @@ sed -i "/^#\$Internet::contest_host/s/'//g" ${SPIDER_INSTALL_DIR}/local/DXVars.p
 #cd ${SPIDER_INSTALL_DIR}/perl && \
 #if [ -z "${CLUSTER_UPDATE}" ]; then ./create_sysop.pl ;fi && \
 #./cluster.pl
-
+/bin/sh
 sleep 3
 

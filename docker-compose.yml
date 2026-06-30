@@ -39,7 +39,7 @@ services:
     #  start_period: 5s
     #  retries: 3
     #  timeout: 60s
-    restart: always
+    #restart: always
     volumes:
       - /srv/docker/dxspider/startup:/spider/scripts/startup:rw
       - /srv/docker/dxspider/crontab:/spider/local_cmd/crontab:rw

@@ -1,7 +1,7 @@
 FROM alpine:latest
 
-#ARG SPIDER_GIT_REPOSITORY=git://scm.dxspider.org/spider
-ARG SPIDER_GIT_REPOSITORY=https://github.com/yarodin/dx-spider
+ARG SPIDER_GIT_REPOSITORY=git://scm.dxspider.org/spider
+
 # SPIDER_VERSION can be "mojo" or "master"
 ARG SPIDER_VERSION=mojo
 
@@ -35,7 +35,6 @@ RUN apk update \
     perl-mojolicious \
     perl-math-round \
     perl-json \
-    perl-json-xs \
     mysql-client \
     mysql-dev \
     perl-dbd-mysql \ 

@@ -64,6 +64,9 @@ sed -i "/^#\$Internet::contest_host/s/'//g" ${SPIDER_INSTALL_DIR}/local/DXVars.p
 #cd ${SPIDER_INSTALL_DIR}/perl && \
 #if [ -z "${CLUSTER_UPDATE}" ]; then ./create_sysop.pl ;fi && \
 #./cluster.pl
-/bin/sh
+while ! nc -z 127.0.0.1 5432; do
+  echo "Waiting for connection to database..."
+  sleep 1
+done
 sleep 3
 
